@@ -26,7 +26,6 @@ __global__ void popsicle_sticks_kernel(int* number_grid, int* popsicle_sticks,
 									   int grid_dim, int N,
 									   curandState *state, int* good_behavior){
 	int tid = blockDim.x * blockIdx.x + threadIdx.x;  // thread index
-//	int pizza_party = 0;
 	if(tid < N){
 		good_behavior[tid] = 0;
 	}
@@ -40,6 +39,8 @@ __global__ void popsicle_sticks_kernel(int* number_grid, int* popsicle_sticks,
 	}
 	__syncthreads();
 
+
+	// now going to randomize without replacement
 	stride = tid;
 	int random_number;
 	int tmp;
@@ -59,6 +60,7 @@ __global__ void popsicle_sticks_kernel(int* number_grid, int* popsicle_sticks,
 	int pizza_party = 0;
 	int good_behavior_count = 0;
 
+	// simulating stick drawing, a sequential process in this case.
 	while (pizza_party == 0){
 		int stick_drawn = popsicle_sticks[start_index + good_behavior_count];
 		number_grid[start_index + stick_drawn] = 1;
@@ -96,41 +98,42 @@ int main() {
 	int grid_dim = 10;
 
 	// Init variables
-//	int* popsicle_sticks;
 	int* d_popsicle_sticks;
 	int* d_good_behavior;
 	int* good_behavior;
-	int* popsicle_sticks_test;
-//	int good_behavior_count;
-//	int* number_grid;
 	int* d_number_grid;
-//	unsigned int big_counter = 0;
 
 	curandState *d_state;
     cudaMalloc(&d_state, sizeof(curandState));
 
-    printf("Running setup . . .\n");
-	setup_kernel<<<80, 128>>>(d_state);
-	// allocate space
-//	popsicle_sticks = (int*) malloc(grid_dim * grid_dim * sizeof(int));
+	// allocate space on host
 	popsicle_sticks_test = (int*) malloc(grid_dim * grid_dim * N * sizeof(int));
 	good_behavior = (int*) malloc(N*sizeof(int));
+
 	// allocate space on the device for lots of popsicle sticks
 	cudaMalloc((void**) &d_popsicle_sticks, grid_dim * grid_dim * sizeof(int) * N);
 	cudaMalloc((void**) &d_number_grid, grid_dim * grid_dim * sizeof(int) * N);
 	cudaMalloc((void**) &d_good_behavior, sizeof(int) * N);
+
+    printf("Running setup . . .\n");
+	setup_kernel<<<80, 128>>>(d_state);
+	cudaDeviceSynchronize();
+
 	printf("Running popsicle_sticks_kernel . . .\n");
 	popsicle_sticks_kernel<<<128, 128>>>(d_number_grid, d_popsicle_sticks, grid_dim, N, d_state, d_good_behavior);
 
 	cudaDeviceSynchronize();
 
+	// copy data to host for analysis.
 	printf("Getting data back . . .\n");
-	cudaMemcpy(popsicle_sticks_test, d_popsicle_sticks, grid_dim * grid_dim * N * sizeof(int), cudaMemcpyDeviceToHost);
 	cudaMemcpy(good_behavior, d_good_behavior, N*sizeof(int), cudaMemcpyDeviceToHost);
+
+	// calculate average
 	int good_behavior_big;
 	for (int i = 0; i < N; i++){
 		good_behavior_big += good_behavior[i];
 	}
+
 	printf("%f\n", (float)good_behavior_big / (float)N);
 
 	return 0;
