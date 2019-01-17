@@ -33,7 +33,7 @@ __global__ void setup_kernel(curandState *state, unsigned long long seed){
 }
 
 
-__global__ void popsicle_sticks_kernel(int* number_grid, int* popsicle_sticks,
+__global__ void monte_carlo_kernel(int* number_grid, int* popsicle_sticks,
 									   int grid_dim, curandState *state, int* good_behavior){
 
 	int tid = blockDim.x * blockIdx.x + threadIdx.x;  // thread index
@@ -171,8 +171,8 @@ int main() {
 	cudaCheckError();
 	cudaSafeCall( cudaDeviceSynchronize() );
 
-	printf("Running popsicle_sticks_kernel . . .\n");
-	popsicle_sticks_kernel<<<1, threads_per_block>>>(d_number_grid, d_popsicle_sticks, grid_dim, d_state, d_good_behavior);
+	printf("Running monte_carlo_kernel . . .\n");
+	monte_carlo_kernel<<<1, threads_per_block>>>(d_number_grid, d_popsicle_sticks, grid_dim, d_state, d_good_behavior);
 	cudaCheckError();
 	cudaSafeCall( cudaDeviceSynchronize() );
 
