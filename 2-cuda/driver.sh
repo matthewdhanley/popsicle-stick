@@ -1,6 +1,6 @@
 #!/bin/bash
 echo Compiling device_info.cu
-nvcc device_info.cu device_info
+nvcc device_info.cu -o device_info
 echo Compiling 0-naive.cu
 nvcc 0-naive.cu -o 0-naive
 echo Compiling 1-curand.cu
@@ -17,6 +17,16 @@ echo Compiling 6-occupancy.cu with fast math
 nvcc 6-occupancy.cu -o 6-occupancy --use_fast_math
 echo Compiling 7-cublas.cu with fast math
 nvcc 7-cublas.cu -lcublas -o 7-cublas --use_fast_math
+echo Compiling coalesced.cu
+nvcc coalesced.cu -o coalesced
+echo Compiling data_tx_size.cu
+nvcc data_tx_size.cu -o data_tx_size
+echo Compiling local_vars.cu
+nvcc local_vars.cu -o local_vars
+echo Compiling shared.cu
+nvcc shared.cu -o shared
+echo Compiling vary_data_tx_size.cu
+nvcc vary_data_tx_size.cu -o vary_data_tx_size
 echo ''
 echo Running device_info
 ./device_info
@@ -67,3 +77,13 @@ for i in `seq 1 3`;
 do
     ./7-cublas
 done
+echo Running coalesced.cu
+./coalesced
+echo Running data_tx_size.cu
+./data_tx_size
+echo Running local_vars.cu
+./local_vars
+echo Running shared.cu
+./shared
+echo Running vary_data_tx_size.cu
+./vary_data_tx_size
