@@ -1,0 +1,75 @@
+Compiling 0-naive.cu
+Compiling 1-curand.cu
+Compiling 2-local-var.cu
+Compiling 3-shared-mem.cu
+Compiling 3-shared-mem.cu with fast math
+Compiling 5-grid-size.cu
+Compiling 6-occupancy.cu with fast math
+Compiling 7-cublas.cu with fast math
+
+Running 0-naive.cu
+RAND TIME: 9.396336
+Average: 71.578537
+TIME: 21.335250
+RAND TIME: 9.393530
+Average: 71.567896
+TIME: 21.216714
+RAND TIME: 9.371319
+Average: 71.573082
+TIME: 21.217444
+
+Running 1-curand.cu
+Average: 71.578736
+TIME: 15.037472
+Average: 71.570876
+TIME: 15.041816
+Average: 71.602277
+TIME: 15.026900
+
+Running 2-local-var.cu
+Average: 72.420948
+TIME: 26.142647
+Average: 71.405336
+TIME: 26.274012
+Average: 71.827206
+TIME: 26.211601
+
+Running 3-shared-mem.cu
+Average: 71.717832
+TIME: 16.952803
+Average: 72.139702
+TIME: 17.219195
+Average: 72.358449
+TIME: 17.187381
+
+Running 4-shared-mem-fast-math
+Average: 71.889705
+TIME: 17.127811
+Average: 71.405336
+TIME: 16.964998
+Average: 70.217851
+TIME: 17.211158
+
+Running 5-grid-size.cu
+Average: 71.170203
+TIME: 0.411830
+Average: 71.204228
+TIME: 0.414256
+Average: 71.204228
+TIME: 0.416026
+
+Running 6-occupancy.cu
+Average: 70.706473
+TIME: 3.406531
+Average: 70.745472
+TIME: 3.403079
+Average: 70.735691
+TIME: 3.412103
+
+Running 7-cublas.cu
+Average: 0.000000
+TIME: 4.287951
+Average: 0.000000
+TIME: 4.262162
+Average: 0.000000
+TIME: 4.285207

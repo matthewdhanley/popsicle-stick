@@ -121,7 +121,6 @@ __global__ void monte_carlo_kernel(int* grid, int* draws, int m, curandState* st
 
             if (col_count >= m || row_count >= m){
                 win = 1;
-//                printf("ROW: %d, COL: %d\n", row, col);
             }
             n_draws++;
         }
@@ -166,7 +165,7 @@ int main() {
     cudaSafeCall( cudaMalloc((void**) &d_average, sizeof(double) * threads_per_block * n_blocks) );
     cudaCheckError();
 
-    setup_kernel<<<n_blocks, threads_per_block>>>(d_state, (unsigned long long) time(NULL));
+    setup_kernel<<<900, threads_per_block>>>(d_state, (unsigned long long) time(NULL));
     cudaCheckError();
     cudaSafeCall( cudaDeviceSynchronize() );
 

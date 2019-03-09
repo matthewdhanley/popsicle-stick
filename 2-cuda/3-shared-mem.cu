@@ -126,7 +126,6 @@ __global__ void monte_carlo_kernel(int* draws, curandState* state, double* avera
 
             if (col_count >= m || row_count >= m){
                 win = 1;
-//                printf("ROW: %d, COL: %d\n", row, col);
             }
             n_draws++;
         }

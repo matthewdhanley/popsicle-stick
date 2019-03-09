@@ -33,9 +33,9 @@ int* randperm(int n){
 
 int main() {
 	srand(time(NULL));
-
+	clock_t begin = clock();
 	// Number of iterations to run
-	int N = 1000000;
+	int N = 5000000;
 
 	// Grid Size
 	int grid_dim = 10;
@@ -86,7 +86,10 @@ int main() {
 //		printf("Big Counter %d\n",big_counter);
 	}
 	printf("Average: %d\n",big_counter/N);
+	clock_t end = clock();
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
+	printf("TIME: %f\n", time_spent);
 
 	free(number_grid);
 	free(popsicle_sticks);

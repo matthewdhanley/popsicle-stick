@@ -1,11 +1,3 @@
-//============================================================================
-// Name        : popsicle-stick.cpp
-// Author      : Matthew Hanley
-// Version     :
-// Copyright   :
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -115,17 +107,20 @@ int main() {
 	double* d_average;
 
     int threads_per_block = 64;
-//    int n_blocks = (N + threads_per_block - 1) / threads_per_block;
     int n_blocks = 1;
 
 	// allocate space on host
 	draws = (int*) malloc(N*m*m*sizeof(int));
 	average = (double*) malloc(threads_per_block * n_blocks * sizeof(double));
 
+	clock_t begin_rand = clock();
     // Randomize numbers on the CPU
 	for (int i = 0; i<m*m*N; i += m*m){
         randperm_out(m*m, &draws[i]);
     }
+	clock_t end_rand = clock();
+	double rand_time = (double)(end_rand - begin_rand) / CLOCKS_PER_SEC;
+    printf("RAND TIME: %f\n", rand_time);
 
 	// allocate space on the device for lots of popsicle sticks
 	cudaSafeCall( cudaMalloc((void**) &d_draws, m * m * sizeof(int) * N) );

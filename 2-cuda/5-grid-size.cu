@@ -155,7 +155,7 @@ int main() {
 
     int threads_per_block = 32;
 //    int n_blocks = (N + threads_per_block - 1) / threads_per_block;
-    int n_blocks = 4000;
+    int n_blocks = 900;
 
     // allocate space on host
     average = (double*) malloc(threads_per_block * n_blocks * sizeof(double));
