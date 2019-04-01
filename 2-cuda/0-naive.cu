@@ -22,7 +22,6 @@ __host__ __device__ double rollingAverage(double cur_avg, double new_sample, int
 
 
 __global__ void monte_carlo_kernel(int* grid, int* draws, int m, double* average){
-
 	int tid = blockDim.x * blockIdx.x + threadIdx.x;  // thread index
 
 	// set up striding
@@ -91,10 +90,10 @@ void randperm_out(int a, int* out){
 
 
 int main() {
-	cudaFree(0); // avoid spoofing profiler.
+    cudaSetDevice(1);
+    cudaFree(0); // avoid spoofing profiler.
     clock_t begin = clock();
     srand(time(0));
-
 
 	// Grid Size
 	int m = 10;
